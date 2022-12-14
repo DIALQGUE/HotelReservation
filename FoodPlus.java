@@ -1,4 +1,4 @@
-public class FoodPlus extends Amenity {
+public class FoodPlus extends Food {
 
     public FoodPlus() {
         super(300);
