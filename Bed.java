@@ -16,4 +16,8 @@ public class Bed {
     public void setSize(String size) {
         this.size = size;
     }
+
+    public void print() {
+        System.out.println(size + "-Sized Bed");
+    }
 }

@@ -9,7 +9,6 @@ public class FoodPlus extends Amenity {
     }
 
     public String getDescription() {
-        return "FoodPlus amenity at " + this.getPrice() + "Baht per time" ;
+        return "FoodPlus amenity at " + this.getPrice() + " Baht per time" ;
     }
-
 }

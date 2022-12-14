@@ -61,10 +61,13 @@ public class Booking {
     }
 
     public void print() {
-        System.out.println(this.host);
-        System.out.println(this.dateCheckIn);
-        System.out.println(this.dateCheckOut);
-        System.out.println(this.room);
-        System.out.println(this.transaction);
+        for (int i = 0; i < this.host.size(); i++) {
+            System.out.println("Host " + i + ":");
+            host.get(i).print();
+        }
+        System.out.println("Check-In Date: " + this.dateCheckIn);
+        System.out.println("Check-Out Date: " + this.dateCheckOut);
+        room.print();
+        transaction.print();
     }
 }

@@ -9,7 +9,6 @@ public class Food extends Amenity {
     }
 
     public String getDescription() {
-        return "Food amenity at " + this.getPrice() + "Baht per time" ;
+        return "Food amenity at " + this.getPrice() + " Baht per time" ;
     }
-
 }

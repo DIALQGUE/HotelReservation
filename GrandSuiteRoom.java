@@ -41,6 +41,10 @@ public class GrandSuiteRoom extends Room {
         }
     }
 
+    public ArrayList<Amenity> getAmenityList() {
+        return this.amenityList;
+    }
+
     public void addAmenity(Amenity amenity) {
         this.amenityList.add(amenity);
     }
@@ -65,5 +69,20 @@ public class GrandSuiteRoom extends Room {
             }
         }
         return totalPrice;
+    }
+
+    public void print() {
+        System.out.println("Room number: " + this.getNumber());
+        System.out.println("Room size: " + this.getRoomSize());
+        System.out.println("Description: " + this.getDescription());
+        System.out.println("Bed List: ");
+        for (int i = 0; i < this.getBedList().size(); i++) {
+            System.out.print("\tBed " + (i+1) + ": ");
+            this.getBedList().get(i).print();
+        }
+        System.out.println("Amenity list: ");
+        for (int i = 0; i < this.amenityList.size(); i++) {
+            System.out.println("\tAmenity " + (i+1) + ": " + this.amenityList.get(i).getDescription());
+        }
     }
 }

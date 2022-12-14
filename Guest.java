@@ -32,4 +32,10 @@ public class Guest {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public void print() {
+        System.out.println("Name: " + this.fullName);
+        System.out.println("Phone: " + this.phone);
+        System.out.println("Email: " + this.email);
+    }
 }

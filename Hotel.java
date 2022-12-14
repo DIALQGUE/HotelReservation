@@ -36,21 +36,32 @@ public class Hotel {
     }
 
     public void printEmptyRoom() {
+        String roomType = "";
         for (Room room : roomList) {
             if (!room.isReserved()) {
-                System.out.println(room.getNumber());
+                if (room instanceof PremiumRoom)
+                    roomType = "Premium Room";
+                else if (room instanceof DeluxeRoom)
+                    roomType = "Deluxe Room";
+                else if (room instanceof GrandSuiteRoom)
+                    roomType = "Grand Suite Room";
+                System.out.println("Room number " + room.getNumber() + " : " + roomType);
             }
         }
     }
 
     public void printRoomDescription() {
-        System.out.println((new PremiumRoom()).getDescription());
-        System.out.println((new DeluxeRoom()).getDescription());
-        System.out.println((new GrandSuiteRoom()).getDescription());
+        System.out.println("- " + (new PremiumRoom()).getDescription());
+        System.out.println("- " + (new DeluxeRoom()).getDescription());
+        System.out.println("- " + (new GrandSuiteRoom()).getDescription());
     }
 
     public void addBooking(Booking booking) {
         this.bookingList.add(booking);
+    }
+
+    public void removeBooking(Booking booking) {
+        this.bookingList.remove(booking);
     }
 
     private ArrayList<Guest> getGuestInformation(int guestCount) {
@@ -87,6 +98,24 @@ public class Hotel {
         return date;
     }
 
+    private Date getTime() {
+        String timeString;
+        Date time = new Date();
+        boolean done = false;
+        while (!done) {
+            timeString = scanner.nextLine();
+            try {
+                SimpleDateFormat format = new SimpleDateFormat("hh:mm:ss");
+                time = format.parse(timeString);
+                done = true;
+            }
+            catch (Exception e) {
+                System.out.println("Invalid time: " + timeString);
+            }
+        }
+        return time;
+    }
+
     private boolean validateDate(Date dateCheckIn, Date dateCheckOut) {
         Date currentDate = new Date();
         if (dateCheckIn.compareTo(currentDate) < 0) {
@@ -102,9 +131,9 @@ public class Hotel {
         Date dateCheckIn = new Date();
         Date dateCheckOut = new Date();
         while (true) {
-            System.out.print("Please input check-in date: ");
+            System.out.print("Please input check-in date (dd/MM/yyyy): ");
             dateCheckIn = getDate();
-            System.out.print("Please input check-out date: ");
+            System.out.print("Please input check-out date (dd/MM/yyyy): ");
             dateCheckOut = getDate();
             System.out.println(dateCheckIn);
             System.out.println(dateCheckOut);
@@ -137,6 +166,36 @@ public class Hotel {
         }
     }
 
+    private char getYN() {
+        char choice = scanner.next().charAt(0);
+        while (choice != 'y' && choice != 'n') {
+            System.out.println("Please enter 'y' or 'n' (y = yes | n = no)");
+            choice = Character.toLowerCase(scanner.next().charAt(0));
+        }
+        return choice;
+    }
+
+    public boolean getAdditionalBedInfo() {
+        System.out.print("Do you want an additional single-sized bed (y/n): ");
+        char choice = getYN();
+        if (choice == 'y') return true;
+        else return false;
+    }
+
+    public boolean getAdditionalFoodInfo() {
+        System.out.print("Do you want FoodPlus (y/n): ");
+        char choice = getYN();
+        if (choice == 'y') return true;
+        else return false;
+    }
+
+    public boolean getAdditionalCleaningInfo() {
+        System.out.print("Do you want CleaningPlus (y/n): ");
+        char choice = getYN();
+        if (choice == 'y') return true;
+        else return false;
+    }
+
     public Booking getBookingInformation() {
         System.out.print("How many guest(s) are you booking for: ");
         int guestCount = scanner.nextInt();
@@ -145,6 +204,41 @@ public class Hotel {
         ArrayList<Guest> guestList = getGuestInformation(guestCount);
         ArrayList<Date> dateInfo = getDateInformation();
         Room room = getRoomInformation();
+
+        if (room instanceof DeluxeRoom) {
+            if (getAdditionalBedInfo()) ((DeluxeRoom)room).addBed();
+        }
+        else if (room instanceof GrandSuiteRoom) {
+            if (getAdditionalBedInfo()) ((GrandSuiteRoom)room).addBed();
+            if (getAdditionalFoodInfo()) {
+                ArrayList<Amenity> amenities = ((GrandSuiteRoom)room).getAmenityList();
+                for (Amenity amenity : amenities) {
+                    if (amenity instanceof Food) {
+                        amenities.set(amenities.indexOf(amenity), new FoodPlus());
+                    }
+                }
+            }
+            if (getAdditionalCleaningInfo()) {
+                ArrayList<Amenity> amenities = ((GrandSuiteRoom)room).getAmenityList();
+                for (Amenity amenity : amenities) {
+                    if (amenity instanceof CleaningService) {
+                        amenities.set(amenities.indexOf(amenity), new CleaningServicePlus());
+                    }
+                }
+            }
+            scanner.nextLine();
+            System.out.println("What time do you want to get cleaning service? (hh:mm:ss)");
+            Date time = getTime();
+            System.out.println(time);
+            for (Amenity amenity : ((GrandSuiteRoom)room).getAmenityList()) {
+                if (amenity instanceof CleaningService) {
+                    ((CleaningService)amenity).setTime(time);
+                }
+                if (amenity instanceof CleaningServicePlus) {
+                    ((CleaningServicePlus)amenity).setTime(time);
+                }
+            }
+        }
         float totalPrice = room.getTotalPrice();
         System.out.println("Total price will be: " + totalPrice);
         System.out.println("Please choose your payment method: ");
@@ -161,7 +255,7 @@ public class Hotel {
         System.out.println("===    1. See list of available rooms                    ===");
         System.out.println("===    2. See description of each room type              ===");
         System.out.println("===    3. Book a room                                    ===");
-        System.out.println("===    4. Give feedback                                  ===");
+        System.out.println("===    4. Unbook a room                                  ===");
         System.out.println("============================================================");
     }
 
@@ -193,9 +287,24 @@ public class Hotel {
                     addBooking(booking);
                     booking.getRoom().reserve();
                 }
+                System.out.println(bookingList);
             }
             else if (menu == 4) {
-                System.out.println("Tell us anything :)");
+                Booking targetBooking = null;
+                System.out.print("What is your room number: ");
+                int roomNo = scanner.nextInt();
+                for (Booking booking : bookingList) {
+                    if (roomNo == booking.getRoom().getNumber()) {
+                        targetBooking = booking;
+                    }
+                }
+                if (targetBooking != null) {
+                    targetBooking.getRoom().unReserve();
+                    removeBooking(targetBooking);
+                }
+                else {
+                    System.out.println("Wrong room number");
+                }
             }
         }
     }

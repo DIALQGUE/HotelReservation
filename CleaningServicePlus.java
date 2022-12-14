@@ -1,5 +1,8 @@
+import java.util.Date;
+import java.text.SimpleDateFormat;
+
 public class CleaningServicePlus extends Amenity{
-    private int time;
+    private Date time;
 
     public CleaningServicePlus() {
         super(600);
@@ -9,29 +12,26 @@ public class CleaningServicePlus extends Amenity{
         super(price);
     }
 
-    public CleaningServicePlus(int time) {
+    public CleaningServicePlus(Date time) {
         super(600);
         this.time = time;
     }
     
-    public CleaningServicePlus(float price, int time) {
+    public CleaningServicePlus(float price, Date time) {
         super(price);
         this.time = time;
     }
 
-    public int getTime() {
+    public Date getTime() {
         return this.time;
     }
 
-    public void setTime(int time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 
-    public String printTime() {
-        return "24:00:00";
-    }
-
     public String getDescription() {
-        return "Cleaning service at " + this.getPrice() + " baht per time at " + this.getTime();
+        SimpleDateFormat format = new SimpleDateFormat("hh:mm");
+        return "Cleaning service Plus at " + this.getPrice() + " Baht per time at " + format.format(this.getTime());
     }
 }

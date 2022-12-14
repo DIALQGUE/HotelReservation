@@ -37,7 +37,7 @@ public class Transaction {
 
     public boolean confirm() {
         while (true) {
-            System.out.println("Do you want to confirm your booking? (y/n)");
+            System.out.print("Do you want to confirm your booking? (y/n): ");
             char choice = getYN();
             if (choice == 'y') {
                 return true;
@@ -52,5 +52,10 @@ public class Transaction {
                 }
             }
         }
+    }
+
+    public void print() {
+        System.out.println("Total price: " + this.totalPrice);
+        System.out.println("Payment method: " + this.paymentMethod);
     }
 }

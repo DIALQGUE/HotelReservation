@@ -1,5 +1,7 @@
+import java.util.Date;
+
 public class CleaningService extends Amenity {
-    private int time;
+    private Date time;
 
     public CleaningService() {
         super(500);
@@ -9,29 +11,25 @@ public class CleaningService extends Amenity {
         super(price);
     }
 
-    public CleaningService(int time) {
+    public CleaningService(Date time) {
         super(500);
         this.time = time;
     }
     
-    public CleaningService(float price, int time) {
+    public CleaningService(float price, Date time) {
         super(price);
         this.time = time;
     }
 
-    public int getTime() {
+    public Date getTime() {
         return this.time;
     }
 
-    public void setTime(int time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 
-    public String printTime() {
-        return "24:00:00";
-    }
-
     public String getDescription() {
-        return "Cleaning service at " + this.getPrice() + " baht per time at " + this.getTime();
+        return "Cleaning service at " + this.getPrice() + " Baht per time at " + this.getTime();
     }
 }

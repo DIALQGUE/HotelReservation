@@ -70,4 +70,5 @@ public abstract class Room {
     }
 
     public abstract float getTotalPrice();
+    public abstract void print();
 }
