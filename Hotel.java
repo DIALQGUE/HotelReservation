@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Hotel {
@@ -89,43 +88,6 @@ public class Hotel {
         return guestList;
     }
 
-    // Get date in correct format.
-    private Date getDate() {
-        String dateString;
-        Date date = new Date();
-        boolean done = false;
-        while (!done) {
-            dateString = scanner.nextLine();
-            try {
-                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-                date = format.parse(dateString);
-                done = true;
-            } catch (Exception e) {
-                System.out.println("Invalid date: " + dateString);
-            }
-        }
-        return date;
-    }
-
-    // Get time in correct format.
-    private Date getTime() {
-        String timeString;
-        Date time = new Date();
-        boolean done = false;
-        while (!done) {
-            timeString = scanner.nextLine();
-            try {
-                SimpleDateFormat format = new SimpleDateFormat("hh:mm:ss");
-                time = format.parse(timeString);
-                done = true;
-            }
-            catch (Exception e) {
-                System.out.println("Invalid time: " + timeString);
-            }
-        }
-        return time;
-    }
-
     // Validate checkin and checkout date info.
     private boolean validateDate(Date dateCheckIn, Date dateCheckOut) {
         Date currentDate = new Date();
@@ -144,9 +106,9 @@ public class Hotel {
         Date dateCheckOut = new Date();
         while (true) {
             System.out.print("Please input check-in date (dd/MM/yyyy): ");
-            dateCheckIn = getDate();
+            dateCheckIn = Input.getDate();
             System.out.print("Please input check-out date (dd/MM/yyyy): ");
-            dateCheckOut = getDate();
+            dateCheckOut = Input.getDate();
             System.out.println(dateCheckIn);
             System.out.println(dateCheckOut);
             if (validateDate(dateCheckIn, dateCheckOut)) {
@@ -164,7 +126,16 @@ public class Hotel {
         ArrayList<Room> emptyRoomList = getEmptyRoomList();
         System.out.printf("There are %d rooms available:\n", emptyRoomList.size());
         for (Room room : emptyRoomList) {
-            System.out.println("Room Number " + room.getNumber());
+            System.out.printf("Room Number " + room.getNumber());
+            if (room instanceof PremiumRoom) {
+                System.out.println(" | Room Type: Premium Room");
+            }
+            else if (room instanceof DeluxeRoom) {
+                System.out.println(" | Room Type: Deluxe Room");
+            }
+            else if (room instanceof GrandSuiteRoom) {
+                System.out.println(" | Room Type: Grand Suite Room");
+            }
         }
         while (true) {
             System.out.print("Please choose your room number: ");
@@ -177,40 +148,6 @@ public class Hotel {
                 System.out.println("Invalid room number");
             }
         }
-    }
-
-    // Get y/n (confirm) from user.
-    private char getYN() {
-        char choice = scanner.next().charAt(0);
-        while (choice != 'y' && choice != 'n') {
-            System.out.println("Please enter 'y' or 'n' (y = yes | n = no)");
-            choice = Character.toLowerCase(scanner.next().charAt(0));
-        }
-        return choice;
-    }
-
-    // Get additional bed info from user.
-    public boolean getAdditionalBedInfo() {
-        System.out.print("Do you want an additional single-sized bed (y/n): ");
-        char choice = getYN();
-        if (choice == 'y') return true;
-        else return false;
-    }
-
-    // Get additional food info from user.
-    public boolean getAdditionalFoodInfo() {
-        System.out.print("Do you want FoodPlus (y/n): ");
-        char choice = getYN();
-        if (choice == 'y') return true;
-        else return false;
-    }
-
-    // Get additional cleaning service info from user.
-    public boolean getAdditionalCleaningInfo() {
-        System.out.print("Do you want CleaningPlus (y/n): ");
-        char choice = getYN();
-        if (choice == 'y') return true;
-        else return false;
     }
 
     //// NEW added method : using to get payment information
@@ -240,11 +177,14 @@ public class Hotel {
 
         // Check room type and ask for additional amenities if needed.
         if (room instanceof DeluxeRoom) {
-            if (getAdditionalBedInfo()) ((DeluxeRoom)room).addBed();
+            if (Input.getYN("Do you want an additional single-sized bed (y/n): ")) ((DeluxeRoom)room).addBed();
         }
+        // getYN("Do you want FoodPlus (y/n): ")
         else if (room instanceof GrandSuiteRoom) {
-            if (getAdditionalBedInfo()) ((GrandSuiteRoom)room).addBed();
-            if (getAdditionalFoodInfo()) {
+            if (Input.getYN("Do you want additional single-sized bed (y/n): ")) ((GrandSuiteRoom)room).addBed();
+
+            scanner.nextLine();
+            if (Input.getYN("Do you want FoodPlus (y/n): ")) {
                 ArrayList<Amenity> amenities = ((GrandSuiteRoom)room).getAmenityList();
                 for (Amenity amenity : amenities) {
                     if (amenity instanceof Food) {
@@ -252,7 +192,7 @@ public class Hotel {
                     }
                 }
             }
-            if (getAdditionalCleaningInfo()) {
+            if (Input.getYN("Do you want CleaningPlus (y/n): ")) {
                 ArrayList<Amenity> amenities = ((GrandSuiteRoom)room).getAmenityList();
                 for (Amenity amenity : amenities) {
                     if (amenity instanceof CleaningService) {
@@ -260,9 +200,8 @@ public class Hotel {
                     }
                 }
             }
-            scanner.nextLine();
             System.out.println("What time do you want to get cleaning service? (hh:mm:ss)");
-            Date time = getTime();
+            Date time = Input.getTime();
             System.out.println(time);
             for (Amenity amenity : ((GrandSuiteRoom)room).getAmenityList()) {
                 if (amenity instanceof CleaningService) {
@@ -290,7 +229,7 @@ public class Hotel {
         System.out.println("===    1. See list of available rooms                    ===");
         System.out.println("===    2. See description of each room type              ===");
         System.out.println("===    3. Book a room                                    ===");
-        System.out.println("===    4. Unbook a room                                  ===");
+        System.out.println("===    4. Checkout                                       ===");
         System.out.println("============================================================");
     }
 
@@ -335,12 +274,29 @@ public class Hotel {
                         targetBooking = booking;
                     }
                 }
+                // If room number is correct. Verify email address to checkout.
                 if (targetBooking != null) {
-                    targetBooking.getRoom().unReserve();
-                    removeBooking(targetBooking);
+                    scanner.nextLine();
+                    System.out.print("PLease enter your email address: ");
+                    String hostEmail = scanner.nextLine();
+                    boolean verify = false;
+                    for (Guest guest : targetBooking.getHost()) {
+                        if(hostEmail.equals(guest.getEmail())) {
+                            verify = true;
+                        }
+                    }
+                    if(verify) {
+                        targetBooking.getRoom().unReserve();
+                        removeBooking(targetBooking);
+                        System.out.println("Verification completed. Checkout completed.");
+                        System.out.println("Thank you for staying with us. Hope to see you again.");
+                    }
+                    else{
+                        System.out.println("Verification failed. Can't Checkout.");
+                    }
                 }
                 else {
-                    System.out.println("Wrong room number");
+                    System.out.println("Wrong room number. No booking found.");
                 }
             }
         }
