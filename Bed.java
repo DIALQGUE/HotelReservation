@@ -1,3 +1,4 @@
+// Object: Bed class
 public class Bed {
     private String size;
 

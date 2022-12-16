@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-
+// Object: DeluxeRoom class
 public class DeluxeRoom extends Room {
     private boolean additionalBed;
     private ArrayList<Amenity> amenityList = new ArrayList<Amenity>();
@@ -8,7 +8,7 @@ public class DeluxeRoom extends Room {
         super();
         this.setDescription("Deluxe Room come with double bed in room size 40 square feet at 2500 baht base price per night, can add extra bed but cannot add amenities");
     }
-
+    
     public DeluxeRoom(int number) {
         super(number);
         this.setBasePrice(2500);
@@ -19,6 +19,7 @@ public class DeluxeRoom extends Room {
         this.amenityList.add((new NormalAmenityFactory()).createFoodAmenity());
     }
 
+    // Add additional bed
     public void addBed() {
         if (this.additionalBed == false) {
             this.getBedList().add(new Bed("Single"));
@@ -28,7 +29,7 @@ public class DeluxeRoom extends Room {
             System.out.println("Room already has an additional bed, cannot add more bed");
         }
     }
-
+    // Remove additional bed
     public void removeBed() {
         if (this.additionalBed == true) {
             this.getBedList().remove(1);

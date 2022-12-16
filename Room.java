@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-
+// Room Abstract class for all room types
 public abstract class Room {
     private int number;
     private boolean reservation;
@@ -69,6 +69,7 @@ public abstract class Room {
         this.description = description;
     }
 
+    // Abstract method for getting total price of room and print description
     public abstract float getTotalPrice();
     public abstract void print();
 }

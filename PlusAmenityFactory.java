@@ -1,3 +1,4 @@
+// Factory class for creating plus amenities.
 public class PlusAmenityFactory {
     public Amenity createFoodAmenity() {
         return new FoodPlus();

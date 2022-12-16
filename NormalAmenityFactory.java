@@ -1,5 +1,6 @@
+// Factory class for creating normal amenities
 public class NormalAmenityFactory extends AmenityFactory{
-    public Amenity createFoodAmenity() {
+     public Amenity createFoodAmenity() {
         return new Food();
     }
 

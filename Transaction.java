@@ -35,6 +35,7 @@ public class Transaction {
         return choice;
     }
 
+    // Confirm booking
     public boolean confirm() {
         while (true) {
             System.out.print("Do you want to confirm your booking? (y/n): ");
@@ -43,6 +44,7 @@ public class Transaction {
                 return true;
             }
             else if (choice == 'n') {
+                // Confirm cancel booking
                 System.out.println("Do you want to cancel your booking?");
                 System.out.println("This process cannot be undone.");
                 System.out.println("'y' = Cancel your booking");

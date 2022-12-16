@@ -1,6 +1,7 @@
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
+// Object: CleaningServicePlus class
 public class CleaningServicePlus extends CleaningService {
     private Date time;
 

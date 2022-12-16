@@ -1,5 +1,5 @@
 import java.util.Date;
-
+// Object: CleaningService class
 public class CleaningService extends Amenity {
     private Date time;
 

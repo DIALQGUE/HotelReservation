@@ -1,3 +1,4 @@
+// Object: Food class
 public class Food extends Amenity {
 
     public Food() {
@@ -9,6 +10,6 @@ public class Food extends Amenity {
     }
 
     public String getDescription() {
-        return "Food amenity at " + this.getPrice() + " Baht per time" ;
+        return "Food amenity at " + this.getPrice() + " Baht per set" ;
     }
 }

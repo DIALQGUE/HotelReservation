@@ -8,6 +8,7 @@ public class Hotel {
     private ArrayList<Room> roomList;
     private ArrayList<Booking> bookingList;
 
+    // Initialize the hotel with 3 rooms
     public Hotel() {
         this.roomList = new ArrayList<Room>();
         this.roomList.add(new PremiumRoom(101));
@@ -16,6 +17,7 @@ public class Hotel {
         this.bookingList = new ArrayList<Booking>();
     }
 
+    // Search for a room by room number. Return empty room if not found.
     public Room searchRoom(int roomNumber) {
         for (Room room : roomList) {
             if (room.getNumber() == roomNumber) {
@@ -25,6 +27,7 @@ public class Hotel {
         return new PremiumRoom(); //null room
     }
 
+    // Get list of empty rooms.
     public ArrayList<Room> getEmptyRoomList() {
         ArrayList<Room> emptyRoomList = new ArrayList<Room>();
         for (Room room : roomList) {
@@ -35,6 +38,7 @@ public class Hotel {
         return emptyRoomList;
     }
 
+    // Print list of empty rooms.
     public void printEmptyRoom() {
         String roomType = "";
         for (Room room : roomList) {
@@ -50,23 +54,27 @@ public class Hotel {
         }
     }
 
+    // Print each rooms' description.
     public void printRoomDescription() {
         System.out.println("- " + (new PremiumRoom()).getDescription());
         System.out.println("- " + (new DeluxeRoom()).getDescription());
         System.out.println("- " + (new GrandSuiteRoom()).getDescription());
     }
 
+    // Add a booking to the booking list.
     public void addBooking(Booking booking) {
         this.bookingList.add(booking);
     }
 
+    // Remove a booking from the booking list.
     public void removeBooking(Booking booking) {
         this.bookingList.remove(booking);
     }
 
+    // Get all guests' info from user. 
     private ArrayList<Guest> getGuestInformation(int guestCount) {
-        
         ArrayList<Guest> guestList = new ArrayList<Guest>();
+
         for (int i = 0; i < guestCount; i++) {
             System.out.printf("Guest no.%d\n", i+1);
             System.out.print("Please input your full name: ");
@@ -81,6 +89,7 @@ public class Hotel {
         return guestList;
     }
 
+    // Get date in correct format.
     private Date getDate() {
         String dateString;
         Date date = new Date();
@@ -98,6 +107,7 @@ public class Hotel {
         return date;
     }
 
+    // Get time in correct format.
     private Date getTime() {
         String timeString;
         Date time = new Date();
@@ -116,6 +126,7 @@ public class Hotel {
         return time;
     }
 
+    // Validate checkin and checkout date info.
     private boolean validateDate(Date dateCheckIn, Date dateCheckOut) {
         Date currentDate = new Date();
         if (dateCheckIn.compareTo(currentDate) < 0) {
@@ -127,6 +138,7 @@ public class Hotel {
         return true;
     }
 
+    // Get date info from user.
     private ArrayList<Date> getDateInformation() {
         Date dateCheckIn = new Date();
         Date dateCheckOut = new Date();
@@ -147,6 +159,7 @@ public class Hotel {
         return dateInfo;
     }
 
+    // Get selected room info from user.
     private Room getRoomInformation() {
         ArrayList<Room> emptyRoomList = getEmptyRoomList();
         System.out.printf("There are %d rooms available:\n", emptyRoomList.size());
@@ -166,6 +179,7 @@ public class Hotel {
         }
     }
 
+    // Get y/n (confirm) from user.
     private char getYN() {
         char choice = scanner.next().charAt(0);
         while (choice != 'y' && choice != 'n') {
@@ -175,6 +189,7 @@ public class Hotel {
         return choice;
     }
 
+    // Get additional bed info from user.
     public boolean getAdditionalBedInfo() {
         System.out.print("Do you want an additional single-sized bed (y/n): ");
         char choice = getYN();
@@ -182,6 +197,7 @@ public class Hotel {
         else return false;
     }
 
+    // Get additional food info from user.
     public boolean getAdditionalFoodInfo() {
         System.out.print("Do you want FoodPlus (y/n): ");
         char choice = getYN();
@@ -189,6 +205,7 @@ public class Hotel {
         else return false;
     }
 
+    // Get additional cleaning service info from user.
     public boolean getAdditionalCleaningInfo() {
         System.out.print("Do you want CleaningPlus (y/n): ");
         char choice = getYN();
@@ -196,6 +213,22 @@ public class Hotel {
         else return false;
     }
 
+    //// NEW added method : using to get payment information
+    // Get payment method from user.
+    public String getPaymentMethod() {
+        System.out.print("Please select your payment method (1 = Cash | 2 = Credit/Debit Card): ");
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+        while (choice != 1 && choice != 2) {
+            System.out.println("Please enter '1' or '2' (1 = Cash | 2 = Credit/Debit Card)");
+            choice = scanner.nextInt();
+            scanner.nextLine();
+        }
+        if(choice == 1) return "Cash";
+        else return "Credit/Debit Card";
+    }
+
+    // Get all booking info from user.
     public Booking getBookingInformation() {
         System.out.print("How many guest(s) are you booking for: ");
         int guestCount = scanner.nextInt();
@@ -205,6 +238,7 @@ public class Hotel {
         ArrayList<Date> dateInfo = getDateInformation();
         Room room = getRoomInformation();
 
+        // Check room type and ask for additional amenities if needed.
         if (room instanceof DeluxeRoom) {
             if (getAdditionalBedInfo()) ((DeluxeRoom)room).addBed();
         }
@@ -239,14 +273,15 @@ public class Hotel {
                 }
             }
         }
+        // Calculating total price and get payment method.
         float totalPrice = room.getTotalPrice();
         System.out.println("Total price will be: " + totalPrice);
-        System.out.println("Please choose your payment method: ");
-        String paymentMethod = "soul";
+        String paymentMethod = getPaymentMethod();
         Transaction transaction = new Transaction(totalPrice, paymentMethod);
         return new Booking(guestList, dateInfo.get(0), dateInfo.get(1), room, transaction);
     }
 
+    // Menu interface for application.
     private void showMenu() {
         System.out.println("============================================================");
         System.out.println("================== Welcome to Laork Hotel ==================");
@@ -259,6 +294,7 @@ public class Hotel {
         System.out.println("============================================================");
     }
 
+    // Get menu number from user.
     private int getMenu() {
         while(true) {
             showMenu();
@@ -272,6 +308,7 @@ public class Hotel {
         }
     }
 
+    // Hotel booking application.
     public void startService() {
         while(true) {
             int menu = getMenu();

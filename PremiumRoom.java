@@ -1,3 +1,4 @@
+// Object: PremiumRoom
 public class PremiumRoom extends Room {
     
     public PremiumRoom() {
@@ -17,6 +18,7 @@ public class PremiumRoom extends Room {
         return this.getBasePrice();
     }
 
+    // Override print method from room class
     public void print() {
         System.out.println("Room number: " + this.getNumber());
         System.out.println("Room size: " + this.getRoomSize());

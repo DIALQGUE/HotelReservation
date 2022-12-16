@@ -1,3 +1,4 @@
+// Object: Guest class
 public class Guest {
     private String fullName;
     private String phone;

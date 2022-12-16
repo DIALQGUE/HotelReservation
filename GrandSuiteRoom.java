@@ -21,6 +21,7 @@ public class GrandSuiteRoom extends Room {
         this.amenityList.add((new NormalAmenityFactory()).createCleaningAmenity());
     }
 
+    // Add additional bed
     public void addBed() {
         if (this.additionalBed == false) {
             this.getBedList().add(new Bed("Single"));
@@ -31,6 +32,7 @@ public class GrandSuiteRoom extends Room {
         }
     }
 
+    // Remove additional bed
     public void removeBed() {
         if (this.additionalBed == true) {
             this.getBedList().remove(1);
@@ -45,10 +47,12 @@ public class GrandSuiteRoom extends Room {
         return this.amenityList;
     }
 
+    // Add more amenity
     public void addAmenity(Amenity amenity) {
         this.amenityList.add(amenity);
     }
 
+    // Remove amenity
     public void removeAmenity(Amenity amenity) {
         if (this.amenityList.contains(amenity)) {
             this.amenityList.remove(amenity);

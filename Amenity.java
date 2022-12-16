@@ -1,3 +1,4 @@
+// Object: Amenity
 public abstract class Amenity {
     private float price;
 

@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.Date;
-
+// Object: Booking class
 public class Booking {
     private ArrayList<Guest> host;
     private Date dateCheckIn;
