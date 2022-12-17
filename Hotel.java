@@ -1,6 +1,6 @@
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Date;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.text.SimpleDateFormat;
 
 public class Hotel {
     Scanner scanner = new Scanner(System.in);
@@ -23,7 +23,7 @@ public class Hotel {
                 return room;
             }
         }
-        return new PremiumRoom(); //null room
+        return null; //null room
     }
 
     // Get list of empty rooms.
@@ -39,18 +39,12 @@ public class Hotel {
 
     // Print list of empty rooms.
     public void printEmptyRoom() {
-        String roomType = "";
         for (Room room : roomList) {
             if (!room.isReserved()) {
-                if (room instanceof PremiumRoom)
-                    roomType = "Premium Room";
-                else if (room instanceof DeluxeRoom)
-                    roomType = "Deluxe Room";
-                else if (room instanceof GrandSuiteRoom)
-                    roomType = "Grand Suite Room";
-                System.out.println("Room number " + room.getNumber() + " : " + roomType);
+                System.out.println("Room number " + room.getNumber() + " : " + room.getRoomType());
             }
         }
+        System.out.println("");
     }
 
     // Print each rooms' description.
@@ -75,12 +69,13 @@ public class Hotel {
         ArrayList<Guest> guestList = new ArrayList<Guest>();
 
         for (int i = 0; i < guestCount; i++) {
-            System.out.printf("Guest no.%d\n", i+1);
-            System.out.print("Please input your full name: ");
+            System.out.println("============================");
+            System.out.printf("Guest No.%d\n", i + 1);
+            System.out.print("Please input your full name:\t");
             String inputFullName = scanner.nextLine();
-            System.out.print("Please input your phone: ");
+            System.out.print("Please input your phone:\t");
             String inputPhone = scanner.nextLine();
-            System.out.print("Please input your email: ");
+            System.out.print("Please input your email:\t");
             String inputEmail = scanner.nextLine();
             Guest newGuest = new Guest(inputFullName, inputPhone, inputEmail);
             guestList.add(newGuest);
@@ -92,9 +87,11 @@ public class Hotel {
     private boolean validateDate(Date dateCheckIn, Date dateCheckOut) {
         Date currentDate = new Date();
         if (dateCheckIn.compareTo(currentDate) < 0) {
+            System.out.println("Sorry, you have to book in advance atleast 1 day.");
             return false;
         }
         if (dateCheckOut.compareTo(dateCheckIn) < 0) {
+            System.out.println("Sorry, minimum stay period is 1 day.");
             return false;
         }
         return true;
@@ -104,16 +101,19 @@ public class Hotel {
     private ArrayList<Date> getDateInformation() {
         Date dateCheckIn = new Date();
         Date dateCheckOut = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("E, dd MMMM yyyy", new Locale("en", "TH"));
         while (true) {
-            System.out.print("Please input check-in date (dd/MM/yyyy): ");
+            System.out.print("\nPlease input check-in date (dd/MM/yyyy): ");
             dateCheckIn = Input.getDate();
-            System.out.print("Please input check-out date (dd/MM/yyyy): ");
+            System.out.print("\nPlease input check-out date (dd/MM/yyyy): ");
             dateCheckOut = Input.getDate();
-            System.out.println(dateCheckIn);
-            System.out.println(dateCheckOut);
+            System.out.println("\nYour check-in date is\t" + dateFormat.format(dateCheckIn));
+            System.out.println("Your check-out date is\t" + dateFormat.format(dateCheckOut));
             if (validateDate(dateCheckIn, dateCheckOut)) {
                 break;
             }
+            else
+                System.out.println("Please enter your check-in/out date again.\n");
         }
         ArrayList<Date> dateInfo = new ArrayList<Date>();
         dateInfo.add(dateCheckIn);
@@ -124,7 +124,7 @@ public class Hotel {
     // Get selected room info from user.
     private Room getRoomInformation() {
         ArrayList<Room> emptyRoomList = getEmptyRoomList();
-        System.out.printf("There are %d rooms available:\n", emptyRoomList.size());
+        System.out.printf("\nThere are %d rooms available:\n", emptyRoomList.size());
         for (Room room : emptyRoomList) {
             System.out.printf("Room Number " + room.getNumber());
             if (room instanceof PremiumRoom) {
@@ -138,7 +138,7 @@ public class Hotel {
             }
         }
         while (true) {
-            System.out.print("Please choose your room number: ");
+            System.out.print("\nPlease choose your room number: ");
             int roomNumber = scanner.nextInt();
             Room room = searchRoom(roomNumber);
             if (emptyRoomList.contains(room)) {
@@ -178,6 +178,11 @@ public class Hotel {
         // Check room type and ask for additional amenities if needed.
         if (room instanceof DeluxeRoom) {
             if (Input.getYN("Do you want an additional single-sized bed (y/n): ")) ((DeluxeRoom)room).addBed();
+            for (Amenity amenity : ((DeluxeRoom)room).getAmenityList()) {
+                if (amenity instanceof CleaningService) {
+                    ((CleaningService)amenity).makeAppointment();
+                }
+            }
         }
         // getYN("Do you want FoodPlus (y/n): ")
         else if (room instanceof GrandSuiteRoom) {
@@ -200,20 +205,17 @@ public class Hotel {
                     }
                 }
             }
-            System.out.println("What time do you want to get cleaning service? (hh:mm:ss)");
-            Date time = Input.getTime();
-            System.out.println(time);
+
             for (Amenity amenity : ((GrandSuiteRoom)room).getAmenityList()) {
                 if (amenity instanceof CleaningService) {
-                    ((CleaningService)amenity).setTime(time);
-                }
-                if (amenity instanceof CleaningServicePlus) {
-                    ((CleaningServicePlus)amenity).setTime(time);
+                    ((CleaningService)amenity).makeAppointment();
                 }
             }
+            
         }
         // Calculating total price and get payment method.
-        float totalPrice = room.getTotalPrice();
+        int stayDay = (int)TimeUnit.DAYS.convert(dateInfo.get(1).getTime() - dateInfo.get(0).getTime(), TimeUnit.MILLISECONDS);
+        float totalPrice = room.getTotalPrice(stayDay);
         System.out.println("Total price will be: " + totalPrice);
         String paymentMethod = getPaymentMethod();
         Transaction transaction = new Transaction(totalPrice, paymentMethod);
@@ -263,7 +265,7 @@ public class Hotel {
                     addBooking(booking);
                     booking.getRoom().reserve();
                 }
-                System.out.println(bookingList);
+                // System.out.println(bookingList);
             }
             else if (menu == 4) {
                 Booking targetBooking = null;
@@ -280,18 +282,20 @@ public class Hotel {
                     System.out.print("PLease enter your email address: ");
                     String hostEmail = scanner.nextLine();
                     boolean verify = false;
-                    for (Guest guest : targetBooking.getHost()) {
+
+                    for (Guest guest : targetBooking.getGuestList()) {
                         if(hostEmail.equals(guest.getEmail())) {
                             verify = true;
                         }
                     }
-                    if(verify) {
+
+                    if (verify) {
                         targetBooking.getRoom().unReserve();
                         removeBooking(targetBooking);
                         System.out.println("Verification completed. Checkout completed.");
                         System.out.println("Thank you for staying with us. Hope to see you again.");
                     }
-                    else{
+                    else {
                         System.out.println("Verification failed. Can't Checkout.");
                     }
                 }

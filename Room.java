@@ -6,6 +6,7 @@ public abstract class Room {
     private float basePrice;
     private int roomSize;
     private ArrayList<Bed> bedList = new ArrayList<Bed>();
+    private String roomType;
     private String description;
 
     public Room() {
@@ -61,6 +62,14 @@ public abstract class Room {
         this.bedList = bedList;
     }
 
+    public String getRoomType() {
+        return this.roomType;
+    }
+
+    public void setRoomType(String roomType) {
+        this.roomType = roomType;
+    }
+
     public String getDescription() {
         return this.description;
     }
@@ -70,6 +79,6 @@ public abstract class Room {
     }
 
     // Abstract method for getting total price of room and print description
-    public abstract float getTotalPrice();
+    public abstract float getTotalPrice(int stayDay);
     public abstract void print();
 }

@@ -6,6 +6,7 @@ public class DeluxeRoom extends Room {
 
     public DeluxeRoom() {
         super();
+        this.setRoomType("Deluxe room");
         this.setDescription("Deluxe Room come with double bed in room size 40 square feet at 2500 baht base price per night, can add extra bed but cannot add amenities");
     }
     
@@ -14,6 +15,7 @@ public class DeluxeRoom extends Room {
         this.setBasePrice(2500);
         this.setRoomSize(40);
         this.getBedList().add(new Bed("Double"));
+        this.setRoomType("Deluxe room");
         this.setDescription("Deluxe Room come with double bed in room size 40 square feet at 2500 baht base price per night, can add extra bed but cannot add amenities");
         this.additionalBed = false;
         this.amenityList.add((new NormalAmenityFactory()).createFoodAmenity());
@@ -40,7 +42,11 @@ public class DeluxeRoom extends Room {
         }
     }
 
-    public float getTotalPrice() {
+    public ArrayList<Amenity> getAmenityList() {
+        return this.amenityList;
+    }
+
+    public float getTotalPrice(int stayDay) {
         float totalPrice = this.getBasePrice();
         if (this.additionalBed == true) {
             totalPrice += 500;
@@ -50,12 +56,13 @@ public class DeluxeRoom extends Room {
                 totalPrice += amenity.getPrice();
             }
         }
+        totalPrice = totalPrice * stayDay;
         return totalPrice;
     }
 
     public void print() {
         System.out.println("Room number: " + this.getNumber());
-        System.out.println("Room size: " + this.getRoomSize());
+        System.out.println("Room type: " + this.getRoomType());
         System.out.println("Description: " + this.getDescription());
         System.out.println("Bed List: ");
         for (int i = 0; i < this.getBedList().size(); i++) {

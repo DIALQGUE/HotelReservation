@@ -47,7 +47,7 @@ public class Input {
             scanner.nextLine();
             timeString = scanner.nextLine();
             try {
-                SimpleDateFormat format = new SimpleDateFormat("hh:mm:ss");
+                SimpleDateFormat format = new SimpleDateFormat("hh.mm");
                 time = format.parse(timeString);
                 done = true;
             }

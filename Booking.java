@@ -1,31 +1,33 @@
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
+import java.text.SimpleDateFormat;
 // Object: Booking class
 public class Booking {
-    private ArrayList<Guest> host;
+    private ArrayList<Guest> guestList;
     private Date dateCheckIn;
     private Date dateCheckOut;
     private Room room;
     private Transaction transaction;
 
-    public Booking(ArrayList<Guest> host, Date dateCheckIn, Date dateCheckOut, Room room, Transaction transaction) {
-        this.host = host;
+    public Booking(ArrayList<Guest> guestList, Date dateCheckIn, Date dateCheckOut, Room room, Transaction transaction) {
+        this.guestList = guestList;
         this.dateCheckIn = dateCheckIn;
         this.dateCheckOut = dateCheckOut;
         this.room = room;
         this.transaction = transaction;
     }
 
-    public ArrayList<Guest> getHost() {
-        return this.host;
+    public ArrayList<Guest> getGuestList() {
+        return this.guestList;
     }
 
-    public void setHost(ArrayList<Guest> host) {
-        this.host = host;
+    public void setGuestList(ArrayList<Guest> guestList) {
+        this.guestList = guestList;
     }
 
-    public void addHost(Guest guest) {
-        this.host.add(guest);
+    public void addGuest(Guest guest) {
+        this.guestList.add(guest);
     }
 
     public Date getDateCheckIn() {
@@ -61,12 +63,15 @@ public class Booking {
     }
 
     public void print() {
-        for (int i = 0; i < this.host.size(); i++) {
-            System.out.println("Host " + i + ":");
-            host.get(i).print();
+        for (int i = 0; i < this.guestList.size(); i++) {
+            System.out.println("====================");
+            System.out.println("Guest No. " + (i + 1) + ":");
+            guestList.get(i).print();
         }
-        System.out.println("Check-In Date: " + this.dateCheckIn);
-        System.out.println("Check-Out Date: " + this.dateCheckOut);
+        System.out.println("====================\n");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("E, dd MMMM yyyy", new Locale("en", "TH"));
+        System.out.println("Check-In Date: " + dateFormat.format(this.dateCheckIn));
+        System.out.println("Check-Out Date: " + dateFormat.format(this.dateCheckOut));
         room.print();
         transaction.print();
     }
