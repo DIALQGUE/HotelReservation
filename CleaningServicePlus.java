@@ -3,7 +3,6 @@ import java.text.SimpleDateFormat;
 
 // Object: CleaningServicePlus class
 public class CleaningServicePlus extends CleaningService {
-    private Date time;
 
     public CleaningServicePlus() {
         super(600);
@@ -11,12 +10,12 @@ public class CleaningServicePlus extends CleaningService {
 
     public CleaningServicePlus(Date time) {
         super(600);
-        this.time = time;
+        this.setTime(time);
     }
     
     public CleaningServicePlus(float price, Date time) {
         super(price);
-        this.time = time;
+        this.setTime(time);
     }
 
     public String getDescription() {
