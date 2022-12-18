@@ -152,7 +152,7 @@ public class Hotel {
 
     //// NEW added method : using to get payment information
     // Get payment method from user.
-    private String getPaymentMethod() {
+    private String getPaymentMethodInformation() {
         System.out.print("Please select your payment method (1 = Cash | 2 = Credit/Debit Card): ");
         int choice = scanner.nextInt();
         scanner.nextLine();
@@ -217,7 +217,7 @@ public class Hotel {
         int stayDay = (int)TimeUnit.DAYS.convert(dateInfo.get(1).getTime() - dateInfo.get(0).getTime(), TimeUnit.MILLISECONDS);
         float totalPrice = room.getTotalPrice(stayDay);
         System.out.println("Total price will be: " + totalPrice);
-        String paymentMethod = getPaymentMethod();
+        String paymentMethod = getPaymentMethodInformation();
         Transaction transaction = new Transaction(totalPrice, paymentMethod);
         return new Booking(guestList, dateInfo.get(0), dateInfo.get(1), room, transaction);
     }
