@@ -4,7 +4,7 @@ public class PremiumRoom extends Room {
     public PremiumRoom() {
         super();
         this.setRoomType("Premium room");
-        this.setDescription("Premium Room come with single bed in room size 30 square feet at 1500 baht base price per night, cannot add extra bed or add amenities");
+        this.setDescription("Premium Room come with single bed in room size 300 square feet at 1500 baht base price per night, cannot add extra bed or add amenities");
     }
 
     public PremiumRoom(int number) {
