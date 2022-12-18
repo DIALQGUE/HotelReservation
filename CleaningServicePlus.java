@@ -8,6 +8,10 @@ public class CleaningServicePlus extends CleaningService {
         super(600);
     }
 
+    public CleaningServicePlus(float price) {
+        super(price);
+    }
+
     public CleaningServicePlus(Date time) {
         super(600);
         this.setTime(time);
