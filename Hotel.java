@@ -17,7 +17,7 @@ public class Hotel {
     }
 
     // Search for a room by room number. Return empty room if not found.
-    public Room searchRoom(int roomNumber) {
+    private Room searchRoom(int roomNumber) {
         for (Room room : roomList) {
             if (room.getNumber() == roomNumber) {
                 return room;
@@ -27,7 +27,7 @@ public class Hotel {
     }
 
     // Get list of empty rooms.
-    public ArrayList<Room> getEmptyRoomList() {
+    private ArrayList<Room> getEmptyRoomList() {
         ArrayList<Room> emptyRoomList = new ArrayList<Room>();
         for (Room room : roomList) {
             if (!room.isReserved()) {
@@ -38,7 +38,7 @@ public class Hotel {
     }
 
     // Print list of empty rooms.
-    public void printEmptyRoom() {
+    private void printEmptyRoom() {
         for (Room room : roomList) {
             if (!room.isReserved()) {
                 System.out.println("Room number " + room.getNumber() + " : " + room.getRoomType());
@@ -48,19 +48,19 @@ public class Hotel {
     }
 
     // Print each rooms' description.
-    public void printRoomDescription() {
+    private void printRoomDescription() {
         System.out.println("- " + (new PremiumRoom()).getDescription());
         System.out.println("- " + (new DeluxeRoom()).getDescription());
         System.out.println("- " + (new GrandSuiteRoom()).getDescription());
     }
 
     // Add a booking to the booking list.
-    public void addBooking(Booking booking) {
+    private void addBooking(Booking booking) {
         this.bookingList.add(booking);
     }
 
     // Remove a booking from the booking list.
-    public void removeBooking(Booking booking) {
+    private void removeBooking(Booking booking) {
         this.bookingList.remove(booking);
     }
 
@@ -152,7 +152,7 @@ public class Hotel {
 
     //// NEW added method : using to get payment information
     // Get payment method from user.
-    public String getPaymentMethod() {
+    private String getPaymentMethod() {
         System.out.print("Please select your payment method (1 = Cash | 2 = Credit/Debit Card): ");
         int choice = scanner.nextInt();
         scanner.nextLine();
@@ -166,7 +166,7 @@ public class Hotel {
     }
 
     // Get all booking info from user.
-    public Booking getBookingInformation() {
+    private Booking getBookingInformation() {
         System.out.print("How many guest(s) are you booking for: ");
         int guestCount = scanner.nextInt();
         scanner.nextLine();
