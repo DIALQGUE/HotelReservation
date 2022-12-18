@@ -2,23 +2,25 @@ import java.util.ArrayList;
 // Object: DeluxeRoom class
 public class DeluxeRoom extends Room {
     private boolean additionalBed;
+    private AmenityFactory normalAmenityFactory;
     private ArrayList<Amenity> amenityList = new ArrayList<Amenity>();
 
     public DeluxeRoom() {
         super();
         this.setRoomType("Deluxe room");
-        this.setDescription("Deluxe Room come with double bed in room size 40 square feet at 2500 baht base price per night, can add extra bed but cannot add amenities");
+        this.setDescription("Deluxe Room come with double bed in room size 450 square feet at 2500 baht base price per night, can add extra bed but cannot add amenities");
     }
     
     public DeluxeRoom(int number) {
         super(number);
         this.setBasePrice(2500);
-        this.setRoomSize(40);
+        this.setRoomSize(450);
         this.getBedList().add(new Bed("Double"));
         this.setRoomType("Deluxe room");
-        this.setDescription("Deluxe Room come with double bed in room size 40 square feet at 2500 baht base price per night, can add extra bed but cannot add amenities");
+        this.setDescription("Deluxe Room come with double bed in room size 450 square feet at 2500 baht base price per night, can add extra bed but cannot add amenities");
         this.additionalBed = false;
-        this.amenityList.add((new NormalAmenityFactory()).createFoodAmenity());
+        this.normalAmenityFactory = new NormalAmenityFactory();
+        this.amenityList.add(this.normalAmenityFactory.createFoodAmenity());
     }
 
     // Add additional bed

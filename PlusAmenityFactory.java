@@ -1,5 +1,5 @@
 // Factory class for creating plus amenities.
-public class PlusAmenityFactory {
+public class PlusAmenityFactory extends AmenityFactory{
     public Amenity createFoodAmenity() {
         return new FoodPlus();
     }

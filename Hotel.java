@@ -177,8 +177,10 @@ public class Hotel {
 
         // Check room type and ask for additional amenities if needed.
         if (room instanceof DeluxeRoom) {
-            if (Input.getYN("Do you want an additional single-sized bed (y/n): ")) ((DeluxeRoom)room).addBed();
-            for (Amenity amenity : ((DeluxeRoom)room).getAmenityList()) {
+            DeluxeRoom deluxeRoom = (DeluxeRoom)room;
+            if (Input.getYN("Do you want an additional single-sized bed (y/n): ")) deluxeRoom.addBed();
+            
+            for (Amenity amenity : deluxeRoom.getAmenityList()) {
                 if (amenity instanceof CleaningService) {
                     ((CleaningService)amenity).makeAppointment();
                 }
@@ -186,27 +188,17 @@ public class Hotel {
         }
         // getYN("Do you want FoodPlus (y/n): ")
         else if (room instanceof GrandSuiteRoom) {
-            if (Input.getYN("Do you want additional single-sized bed (y/n): ")) ((GrandSuiteRoom)room).addBed();
+            GrandSuiteRoom grandSuiteRoom = (GrandSuiteRoom)room;
+            if (Input.getYN("Do you want additional single-sized bed (y/n): ")) grandSuiteRoom.addBed();
 
             scanner.nextLine();
-            if (Input.getYN("Do you want FoodPlus (y/n): ")) {
-                ArrayList<Amenity> amenities = ((GrandSuiteRoom)room).getAmenityList();
-                for (Amenity amenity : amenities) {
-                    if (amenity instanceof Food) {
-                        amenities.set(amenities.indexOf(amenity), new FoodPlus());
-                    }
-                }
-            }
-            if (Input.getYN("Do you want CleaningPlus (y/n): ")) {
-                ArrayList<Amenity> amenities = ((GrandSuiteRoom)room).getAmenityList();
-                for (Amenity amenity : amenities) {
-                    if (amenity instanceof CleaningService) {
-                        amenities.set(amenities.indexOf(amenity), new CleaningServicePlus());
-                    }
-                }
-            }
+            if (Input.getYN("Do you want FoodPlus (y/n): "))
+                grandSuiteRoom.addFoodPlusAmenity();
+                
+            if (Input.getYN("Do you want CleaningPlus (y/n): "))
+                grandSuiteRoom.addCleaningPlusAmenity();
 
-            for (Amenity amenity : ((GrandSuiteRoom)room).getAmenityList()) {
+            for (Amenity amenity : grandSuiteRoom.getAmenityList()) {
                 if (amenity instanceof CleaningService) {
                     ((CleaningService)amenity).makeAppointment();
                 }

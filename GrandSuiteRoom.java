@@ -2,25 +2,28 @@ import java.util.ArrayList;
 
 public class GrandSuiteRoom extends Room {
     private boolean additionalBed;
+    private AmenityFactory normalAmenityFactory, plusAmenityFactory;
     private ArrayList<Amenity> amenityList = new ArrayList<Amenity>();
     
     public GrandSuiteRoom() {
         super();
         this.setRoomType("Grand Suite room");
-        this.setDescription("Grand Suite Room come with single bed and double bed in room size 60 square feet at 4000 baht base price per night, can add extra bed and amenities");
+        this.setDescription("Grand Suite Room come with single bed and double bed in room size 600 square feet at 4000 baht base price per night, can add extra bed and amenities");
     }
 
     public GrandSuiteRoom(int number) {
         super(number);
         this.setBasePrice(4000);
-        this.setRoomSize(60);
+        this.setRoomSize(600);
         this.getBedList().add(new Bed("Single"));
         this.getBedList().add(new Bed("Double"));
         this.setRoomType("Grand Suite room");
-        this.setDescription("Grand Suite Room come with single bed and double bed in room size 60 square feet at 4000 baht base price per night, can add extra bed and amenities");
+        this.setDescription("Grand Suite Room come with single bed and double bed in room size 600 square feet at 4000 baht base price per night, can add extra bed and amenities");
+        this.normalAmenityFactory = new NormalAmenityFactory();
+        this.plusAmenityFactory = new PlusAmenityFactory();
         this.additionalBed = false;
-        this.amenityList.add((new NormalAmenityFactory()).createFoodAmenity());
-        this.amenityList.add((new NormalAmenityFactory()).createCleaningAmenity());
+        this.amenityList.add(this.normalAmenityFactory.createFoodAmenity());
+        this.amenityList.add(this.normalAmenityFactory.createCleaningAmenity());
     }
 
     // Add additional bed
@@ -50,8 +53,12 @@ public class GrandSuiteRoom extends Room {
     }
 
     // Add more amenity
-    public void addAmenity(Amenity amenity) {
-        this.amenityList.add(amenity);
+    public void addFoodPlusAmenity() {
+        this.amenityList.add(this.plusAmenityFactory.createFoodAmenity());
+    }
+
+    public void addCleaningPlusAmenity() {
+        this.amenityList.add(this.plusAmenityFactory.createCleaningAmenity());
     }
 
     // Remove amenity
