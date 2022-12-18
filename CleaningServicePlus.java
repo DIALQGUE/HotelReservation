@@ -22,8 +22,17 @@ public class CleaningServicePlus extends CleaningService {
         this.setTime(time);
     }
 
+    @Override
     public String getDescription() {
         SimpleDateFormat format = new SimpleDateFormat("hh:mm");
         return "Cleaning service Plus at " + this.getPrice() + " Baht per time at " + format.format(this.getTime());
+    }
+
+    @Override
+    public void makeAppointment()
+    {
+        System.out.println("What time do you want to get cleaning service plus? (hh.mm)");
+        Date time = Input.getTime();
+        this.setTime(time);
     }
 }

@@ -40,13 +40,5 @@ public class CleaningService extends Amenity {
         System.out.println("What time do you want to get cleaning service? (hh.mm)");
         Date time = Input.getTime();
         this.setTime(time);
-        // for (Amenity amenity : ((GrandSuiteRoom)room).getAmenityList()) {
-        //     if (amenity instanceof CleaningService) {
-        //         ((CleaningService)amenity).setTime(time);
-        //     }
-        //     if (amenity instanceof CleaningServicePlus) {
-        //         ((CleaningServicePlus)amenity).setTime(time);
-        //     }
-        // }
     }
 }

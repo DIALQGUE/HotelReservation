@@ -37,14 +37,13 @@ public class Input {
         }
         return date;
     }
-
+    
     // Get time in correct format.
     public static Date getTime() {
         String timeString;
         Date time = new Date();
         boolean done = false;
         while (!done) {
-            scanner.nextLine();
             timeString = scanner.nextLine();
             try {
                 SimpleDateFormat format = new SimpleDateFormat("hh.mm");
