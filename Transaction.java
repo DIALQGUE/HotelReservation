@@ -5,7 +5,7 @@ public class Transaction {
     private float totalPrice;
     private String paymentMethod;
 
-    public  Transaction(float totalPrice, String paymentMethod) {
+    public Transaction(float totalPrice, String paymentMethod) {
         this.totalPrice = totalPrice;
         this.paymentMethod = paymentMethod;
     }
@@ -26,30 +26,19 @@ public class Transaction {
         this.paymentMethod = paymentMethod;
     }
 
-    private char getYN() {
-        char choice = scanner.next().charAt(0);
-        while (choice != 'y' && choice != 'n') {
-            System.out.println("Please enter 'y' or 'n' (y = yes | n = no)");
-            choice = Character.toLowerCase(scanner.next().charAt(0));
-        }
-        return choice;
-    }
-
     // Confirm booking
     public boolean confirm() {
         while (true) {
-            System.out.print("Do you want to confirm your booking? (y/n): ");
-            char choice = getYN();
-            if (choice == 'y') {
+            if (Input.getYN("Do you want to confirm your booking? (y/n): ")) {
                 return true;
             }
-            else if (choice == 'n') {
+            else {
                 // Confirm cancel booking
                 System.out.println("Do you want to cancel your booking?");
                 System.out.println("This process cannot be undone.");
                 System.out.println("'y' = Cancel your booking");
                 System.out.println("'n' = Not Cancel your booking");
-                if (getYN() == 'y') {
+                if (Input.getYN("(y/n): ")) {
                     return false;
                 }
             }
