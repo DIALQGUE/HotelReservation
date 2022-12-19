@@ -25,7 +25,7 @@ public class CleaningServicePlus extends CleaningService {
     @Override
     public String getDescription() {
         SimpleDateFormat format = new SimpleDateFormat("hh:mm");
-        return "Cleaning service Plus at " + this.getPrice() + " Baht per time at " + format.format(this.getTime());
+        return "Cleaning service Plus at " + this.getPrice() + " Baht at " + format.format(this.getTime());
     }
 
     @Override

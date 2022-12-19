@@ -11,7 +11,7 @@ public class Input {
     // Get y/n (confirm) from user.
     public static boolean getYN(String message) {
         System.out.print(message);
-        char choice = scanner.next().charAt(0);
+        char choice = scanner.nextLine().charAt(0);
         while (choice != 'y' && choice != 'n') {
             System.out.println("Please enter 'y' or 'n' (y = yes | n = no)");
             choice = Character.toLowerCase(scanner.next().charAt(0));

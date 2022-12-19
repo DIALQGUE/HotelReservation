@@ -49,9 +49,10 @@ public class Hotel {
 
     // Print each rooms' description.
     private void printRoomDescription() {
-        System.out.println("- " + (new PremiumRoom()).getDescription());
-        System.out.println("- " + (new DeluxeRoom()).getDescription());
-        System.out.println("- " + (new GrandSuiteRoom()).getDescription());
+        System.out.println("\n- " + (new PremiumRoom()).getDescription());
+        System.out.println("\n- " + (new DeluxeRoom()).getDescription());
+        System.out.println("\n- " + (new GrandSuiteRoom()).getDescription());
+        System.out.println("");
     }
 
     // Add a booking to the booking list.
@@ -71,12 +72,16 @@ public class Hotel {
         for (int i = 0; i < guestCount; i++) {
             System.out.println("============================");
             System.out.printf("Guest No.%d\n", i + 1);
+
             System.out.print("Please input your full name:\t");
             String inputFullName = scanner.nextLine();
+
             System.out.print("Please input your phone:\t");
             String inputPhone = scanner.nextLine();
+
             System.out.print("Please input your email:\t");
             String inputEmail = scanner.nextLine();
+
             Guest newGuest = new Guest(inputFullName, inputPhone, inputEmail);
             guestList.add(newGuest);
         }
@@ -86,14 +91,22 @@ public class Hotel {
     // Validate checkin and checkout date info.
     private boolean validateDate(Date dateCheckIn, Date dateCheckOut) {
         Date currentDate = new Date();
-        if (dateCheckIn.compareTo(currentDate) < 0) {
-            System.out.println("Sorry, you have to book in advance atleast 1 day.");
+
+        if (dateCheckIn.compareTo(currentDate) < 0 && dateCheckOut.compareTo(dateCheckIn) < 0) {
+            System.out.println("Sorry, you have to book in advance at least 1 day, and minimum stay period is 1 day.");
             return false;
         }
+
+        if (dateCheckIn.compareTo(currentDate) < 0) {
+            System.out.println("Sorry, you have to book in advance at least 1 day.");
+            return false;
+        }
+
         if (dateCheckOut.compareTo(dateCheckIn) < 0) {
             System.out.println("Sorry, minimum stay period is 1 day.");
             return false;
         }
+
         return true;
     }
 
@@ -102,19 +115,24 @@ public class Hotel {
         Date dateCheckIn = new Date();
         Date dateCheckOut = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("E, dd MMMM yyyy", new Locale("en", "TH"));
+
         while (true) {
             System.out.print("\nPlease input check-in date (dd/MM/yyyy): ");
             dateCheckIn = Input.getDate();
+
             System.out.print("\nPlease input check-out date (dd/MM/yyyy): ");
             dateCheckOut = Input.getDate();
+
             System.out.println("\nYour check-in date is\t" + dateFormat.format(dateCheckIn));
             System.out.println("Your check-out date is\t" + dateFormat.format(dateCheckOut));
+
             if (validateDate(dateCheckIn, dateCheckOut)) {
                 break;
             }
             else
                 System.out.println("Please enter your check-in/out date again.\n");
         }
+
         ArrayList<Date> dateInfo = new ArrayList<Date>();
         dateInfo.add(dateCheckIn);
         dateInfo.add(dateCheckOut);
@@ -125,21 +143,16 @@ public class Hotel {
     private Room getRoomInformation() {
         ArrayList<Room> emptyRoomList = getEmptyRoomList();
         System.out.printf("\nThere are %d rooms available:\n", emptyRoomList.size());
+
         for (Room room : emptyRoomList) {
             System.out.printf("Room Number " + room.getNumber());
-            if (room instanceof PremiumRoom) {
-                System.out.println(" | Room Type: Premium Room");
-            }
-            else if (room instanceof DeluxeRoom) {
-                System.out.println(" | Room Type: Deluxe Room");
-            }
-            else if (room instanceof GrandSuiteRoom) {
-                System.out.println(" | Room Type: Grand Suite Room");
-            }
+            System.out.println(" | Room Type: " + room.getRoomType());
         }
+
         while (true) {
             System.out.print("\nPlease choose your room number: ");
             int roomNumber = scanner.nextInt();
+
             Room room = searchRoom(roomNumber);
             if (emptyRoomList.contains(room)) {
                 return room;
@@ -155,12 +168,12 @@ public class Hotel {
     private String getPaymentMethodInformation() {
         System.out.print("Please select your payment method (1 = Cash | 2 = Credit/Debit Card): ");
         int choice = scanner.nextInt();
-        scanner.nextLine();
+
         while (choice != 1 && choice != 2) {
             System.out.println("Please enter '1' or '2' (1 = Cash | 2 = Credit/Debit Card)");
             choice = scanner.nextInt();
-            scanner.nextLine();
         }
+
         if(choice == 1) return "Cash";
         else return "Credit/Debit Card";
     }

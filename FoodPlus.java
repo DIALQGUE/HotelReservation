@@ -11,6 +11,6 @@ public class FoodPlus extends Food {
 
     @Override
     public String getDescription() {
-        return "FoodPlus amenity at " + this.getPrice() + " Baht per set" ;
+        return "Food Plus amenity at " + this.getPrice() + " Baht per set" ;
     }
 }
