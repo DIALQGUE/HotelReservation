@@ -150,8 +150,18 @@ public class Hotel {
         }
 
         while (true) {
-            System.out.print("\nPlease choose your room number: ");
-            int roomNumber = scanner.nextInt();
+            int roomNumber = 0;
+            boolean done = false;
+
+            while (!done) {
+                System.out.print("\nPlease choose your room number: ");
+                try {
+                    roomNumber = Integer.parseInt(scanner.nextLine());
+                    done = true;
+                } catch (Exception e) {
+                    System.out.println("Invalid room number");
+                }
+            }
 
             Room room = searchRoom(roomNumber);
             if (emptyRoomList.contains(room)) {
@@ -166,12 +176,17 @@ public class Hotel {
     //// NEW added method : using to get payment information
     // Get payment method from user.
     private String getPaymentMethodInformation() {
-        System.out.print("Please select your payment method (1 = Cash | 2 = Credit/Debit Card): ");
-        int choice = scanner.nextInt();
-
-        while (choice != 1 && choice != 2) {
-            System.out.println("Please enter '1' or '2' (1 = Cash | 2 = Credit/Debit Card)");
-            choice = scanner.nextInt();
+        int choice = 0;
+        boolean done = false;
+        
+        while (!done) {
+            System.out.print("Please select your payment method (1 = Cash | 2 = Credit/Debit Card): ");
+            try {
+                choice = Integer.parseInt(scanner.nextLine());
+                done = true;
+            } catch (Exception e) {
+                System.out.println("Invalid payment method number");
+            }
         }
 
         if(choice == 1) return "Cash";
@@ -180,9 +195,17 @@ public class Hotel {
 
     // Get all booking info from user.
     private Booking getBookingInformation() {
-        System.out.print("How many guest(s) are you booking for: ");
-        int guestCount = scanner.nextInt();
-        scanner.nextLine();
+        int guestCount = 0;
+        boolean done = false;
+        while (!done) {
+            System.out.print("How many guest(s) are you booking for: ");
+            try {
+                guestCount = Integer.parseInt(scanner.nextLine());
+                done = true;
+            } catch (Exception e) {
+                System.out.println("Invalid guest number");
+            }
+        }
 
         ArrayList<Guest> guestList = getGuestInformation(guestCount);
         ArrayList<Date> dateInfo = getDateInformation();
@@ -242,15 +265,24 @@ public class Hotel {
 
     // Get menu number from user.
     private int getMenu() {
+        showMenu();
         while(true) {
-            showMenu();
-            System.out.print("Please input menu number: ");
-            //int menu = Integer.parseInt(scanner.nextLine());
-            int menu = scanner.nextInt();
-            //System.out.println(menu);
+            int menu = 0;
+            boolean done = false;
+            while (!done) {
+                System.out.print("Please input menu number: ");
+                try {
+                    menu = Integer.parseInt(scanner.nextLine());
+                    done = true;
+                } catch (Exception e) {
+                    System.out.println("Invalid menu number");
+                }
+            }
             if (menu >= 1 && menu <= 4) {
                 return menu;
             }
+            else
+                System.out.println("Invalid menu number");
         }
     }
 
@@ -274,8 +306,18 @@ public class Hotel {
             }
             else if (menu == 4) {
                 Booking targetBooking = null;
-                System.out.print("What is your room number: ");
-                int roomNo = scanner.nextInt();
+                int roomNo = 0;
+                boolean done = false;
+                while (!done) {
+                    System.out.print("What is your room number: ");
+                    try {
+                        roomNo = Integer.parseInt(scanner.nextLine());
+                        done = true;
+                    } catch (Exception e) {
+                        System.out.println("Invalid room number");
+                    }
+                }
+                
                 for (Booking booking : bookingList) {
                     if (roomNo == booking.getRoom().getNumber()) {
                         targetBooking = booking;
