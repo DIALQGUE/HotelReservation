@@ -102,7 +102,7 @@ public class Hotel {
             return false;
         }
 
-        if (dateCheckOut.compareTo(dateCheckIn) < 0) {
+        if (dateCheckOut.compareTo(dateCheckIn) < 1) {
             System.out.println("Sorry, minimum stay period is 1 day.");
             return false;
         }
